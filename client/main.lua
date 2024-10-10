@@ -6,8 +6,8 @@ CS2_UI.TeamsColors = {
     [2] = {160, 217, 255},
 }
 
-CS2_UI.TopScoresTeam1 = 5
-CS2_UI.TopScoresTeam2 = 5
+CS2_UI.TopScoresTeam1 = 0
+CS2_UI.TopScoresTeam2 = 0
 CS2_UI.TopScoresTime = "1:39"
 
 CS2_UI.ShouldPlayKillAnimation = false
@@ -88,7 +88,7 @@ function CS2_UI.Draw()
     if DoesPedHasWeaponInHand ~= false then
         local ammoPositionX = 0.63
         local ammoPositionY = 0.910
-        UI.DrawTexts(ammoPositionX, ammoPositionY - 0.005, tostring(ammoInClip), true, 0.80, {CS2_UI.TeamsColors[CS2_UI.CurrentTeam][1], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][2], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][3], 255}, 2, false, false, false, false) 
+        UI.DrawTexts(ammoPositionX, ammoPositionY - 0.005, tostring(ammoInClip), true, 0.80, {CS2_UI.TeamsColors[CS2_UI.CurrentTeam][1], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][2], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][3], 255}, 2, false, false, false, false)
         UI.DrawTexts(ammoPositionX + 0.025, ammoPositionY + 0.005, tostring(totalAmmo), true, 0.50, {CS2_UI.TeamsColors[CS2_UI.CurrentTeam][1], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][2], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][3], 255}, 6, false, false, false, false)
 
         local x, y = UI.ConvertToPixel(35, 35)
@@ -123,51 +123,55 @@ Citizen.CreateThread(function()
     CS2_UI.Toggle()
 end)
 
-AddEventHandler('gameEventTriggered', function(eventName, data)
-    if eventName == "CEventNetworkEntityDamage" then
-        local victim = data[1]
-        local attacker = data[2]
-        local isFatal = data[3]
+if Config.UseInternalKillDetection then
+    AddEventHandler('gameEventTriggered', function(eventName, data)
+        if eventName == "CEventNetworkEntityDamage" then
+            local victim = data[1]
+            local attacker = data[2]
+            local isFatal = data[3]
 
-        print(victim, attacker, isFatal)
-        if victim and attacker then
-            if isFatal then
-                local pPed = PlayerPedId()
-                if pPed == attacker then
-                    if IsPedDeadOrDying(victim) then
-                        CS2_UI.PlayKillAnimation()
+            if victim and attacker then
+                if isFatal then
+                    local pPed = PlayerPedId()
+                    if pPed == attacker then
+                        if IsPedDeadOrDying(victim, true) then
+                            CS2_UI.PlayKillAnimation()
+                        end
                     end
                 end
             end
         end
-    end
-end)
+    end)
+end
+
 
 
 -- TESTS
-RegisterCommand("changeteam", function()
-    if CS2_UI.CurrentTeam == 1 then
-        CS2_UI.CurrentTeam = 2
-    else
-        CS2_UI.CurrentTeam = 1
-    end
-end, false)
+if Config.EnableTestsCommands then
+    RegisterCommand("changeteam", function()
+        if CS2_UI.CurrentTeam == 1 then
+            CS2_UI.CurrentTeam = 2
+        else
+            CS2_UI.CurrentTeam = 1
+        end
+    end, false)
 
-RegisterCommand("addkill", function()
-    CS2_UI.PlayKillAnimation()
-end, false)
+    RegisterCommand("addkill", function()
+        CS2_UI.PlayKillAnimation()
+    end, false)
 
-RegisterCommand("addscore", function()
-    CS2_UI.TopScoresTeam1 = CS2_UI.TopScoresTeam1 + 1
-    CS2_UI.TopScoresTeam2 = CS2_UI.TopScoresTeam2 + 1
-end, false)
+    RegisterCommand("addscore", function()
+        CS2_UI.TopScoresTeam1 = CS2_UI.TopScoresTeam1 + 1
+        CS2_UI.TopScoresTeam2 = CS2_UI.TopScoresTeam2 + 1
+    end, false)
 
-RegisterCommand("changearmor", function()
-    local pPed = PlayerPedId()
-    SetPedArmour(pPed, math.random(0, 100))
-end, false)
+    RegisterCommand("changearmor", function()
+        local pPed = PlayerPedId()
+        SetPedArmour(pPed, math.random(0, 100))
+    end, false)
 
-RegisterCommand("changehealth", function()
-    local pPed = PlayerPedId()
-    SetEntityHealth(pPed, math.random(101, 200))
-end, false)
+    RegisterCommand("changehealth", function()
+        local pPed = PlayerPedId()
+        SetEntityHealth(pPed, math.random(101, 200))
+    end, false)
+end
