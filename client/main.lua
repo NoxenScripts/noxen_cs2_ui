@@ -39,8 +39,8 @@ function CS2_UI.Draw()
     local pMaxHealth = GetEntityMaxHealth(pPed)
     local pHealthPercent = math.floor((pHealth / pMaxHealth) * 100)
     local DoesPedHasWeaponInHand, weaponHash = GetCurrentPedWeapon(pPed)
-    local gotAmmo, ammoInClip = GetAmmoInClip(pPed, weaponHash)
-    local totalAmmo = GetAmmoInPedWeapon(pPed, weaponHash) - ammoInClip
+    local _, ammoInClip = GetAmmoInClip(pPed, weaponHash or 0)
+    local totalAmmo = GetAmmoInPedWeapon(pPed, weaponHash or 0) - ammoInClip
     local teamTag = "_t"
     if CS2_UI.CurrentTeam == 2 then
         teamTag = "_ct"
