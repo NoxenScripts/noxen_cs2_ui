@@ -1,7 +1,17 @@
-base readme
 # CS2 UI Replica
 
 This project is a replica of the Counter-Strike 2 (CS2) user interface.
+
+## Feature Previews
+
+### Kill Animation
+![Kill Animation](https://cdn.discordapp.com/attachments/845277808288202762/1295375938519044126/kill_anim.gif?ex=670e6c5a&is=670d1ada&hm=7e007fef7bc72ac6af22d50e1656e5af1d7ca5c695e1dbad413cd538c89518ac&)
+
+### Team Support
+![Team Support](https://cdn.discordapp.com/attachments/845277808288202762/1295375949046485042/team_change.gif?ex=670e6c5d&is=670d1add&hm=eddb6a1d45132ac9eee42b67703f55aed2f64e2d9fe0ff3c11000ef680ec5550&)
+
+### Top Score Display
+![Top Score Display](https://cdn.discordapp.com/attachments/845277808288202762/1295376113295425566/image.png?ex=670e6c84&is=670d1b04&hm=e063e1a1edbd52b6878bc2f1b0772141a3007c521d6df19dd6b2d606966c1534&)
 
 ## Configuration
 
@@ -70,7 +80,6 @@ dependency 'noxen_cs2_ui'
 ```
 
 This ensures that `noxen_cs2_ui` is loaded before your resource, preventing any potential issues with missing exports.
-
 
 ## Example
 
