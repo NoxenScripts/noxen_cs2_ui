@@ -23,3 +23,10 @@ end
 function API.Toggle()
     CS2_UI.Toggle()
 end
+
+exports('SetScoreTeam1', API.SetScoreTeam1)
+exports('SetScoreTeam2', API.SetScoreTeam2)
+exports('SetTeam', API.SetTeam)
+exports('AddKill', API.AddKill)
+exports('ResetKills', API.ResetKills)
+exports('Toggle', API.Toggle)
