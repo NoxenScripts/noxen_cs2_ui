@@ -15,7 +15,7 @@ This project is a replica of the Counter-Strike 2 (CS2) user interface.
 
 ## Configuration
 
-The script uses a `Config` object to manage settings. Here are the available options:
+Here are the available options:
 
 ```lua
 Config = {}
