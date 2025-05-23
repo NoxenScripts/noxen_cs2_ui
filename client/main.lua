@@ -66,9 +66,22 @@ function CS2_UI.Draw()
     end
 
     if CS2_UI.Kills > 0 then
-        local x, y = UI.ConvertToPixel(33, 44)
-        UI.DrawSpriteSimple("noxen_ui_cs2", "kill_card_count", 0.498, 0.887, x, y, 0.0, CS2_UI.TeamsColors[CS2_UI.CurrentTeam][1], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][2], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][3], 255, {centerDraw = true}, function() end)
-        UI.DrawTexts(0.498, 0.878, CS2_UI.Kills, true, 0.30, {CS2_UI.TeamsColors[CS2_UI.CurrentTeam][1], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][2], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][3], 255}, 2, false, false, false, false)
+        local displayKills = (CS2_UI.Kills > 5) and 1 or CS2_UI.Kills
+        local baseX, baseY = 0.498, 0.887
+        local angleStep = 15
+        local spreadOffset = 0.005
+
+        for i = 1, displayKills do
+            local x, y = UI.ConvertToPixel(33, 44)
+            local offsetX = (displayKills > 1) and ((i - (displayKills / 2)) * spreadOffset) or 0
+            local angle = (displayKills > 1) and ((i - (displayKills / 2)) * angleStep) or 0
+
+            UI.DrawSpriteSimple("noxen_ui_cs2", "kill_card_count", baseX + offsetX, baseY, x, y, angle, CS2_UI.TeamsColors[CS2_UI.CurrentTeam][1], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][2], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][3], 255, {centerDraw = true}, function() end)
+
+            if i == displayKills then
+                UI.DrawTexts(baseX + offsetX, baseY - 0.009, CS2_UI.Kills, true, 0.30, {CS2_UI.TeamsColors[CS2_UI.CurrentTeam][1], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][2], CS2_UI.TeamsColors[CS2_UI.CurrentTeam][3], 255}, 2, false, false, false, false, angle)
+            end
+        end
     end
 
     local x, y = UI.ConvertToPixel(419, 63)
